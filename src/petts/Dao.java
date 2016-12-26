@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -31,11 +32,27 @@ public class Dao {
 		}
 
 	}
+	public void insert(){}
 	public void remove(){}
 	public void delete(){}
-	public void findByPrimaryKey(){}
+	public ResultSet findByPrimaryKey(int key){
+	try {
+		java.sql.PreparedStatement pstmt=c.prepareStatement(getSqlCommand("sqls/searchByKey.sql"));
+		
+		pstmt.setInt(1,key);
+		
+		return pstmt.executeQuery(); 
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+		return null;
+	}
+		
+		
+	}
 	public void update(){}
 	public List<Dao> findAll(){return null;}
+	
 	private String getSqlCommand(String fileName){
 		String sqlCommand="";
 		File f= new File(fileName);
@@ -55,15 +72,13 @@ public class Dao {
 				}
 				
 			}
-				
-				
-				
-			}catch(IOException ioe){
+
+				}catch(IOException ioe){
 					ioe.printStackTrace();	
 					}
 			
 		
-		return sqlCommand;
+			return sqlCommand;
 	} 
 	
 }
