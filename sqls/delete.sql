@@ -1,0 +1,1 @@
+delete from Pets where id=id?;

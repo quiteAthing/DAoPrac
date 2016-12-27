@@ -1,4 +1,4 @@
-create table Pets(	
+create table if not Exists Pets(	
 id int not null  auto_increment primary key,
 petName varchar(20),
 masterName varchar(32),
