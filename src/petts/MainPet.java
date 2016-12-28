@@ -10,6 +10,7 @@ import java.util.Map;
 public class MainPet {
 
 	public static void main(String[] args) {
+		//取得連線，並用這個連線建立Dao物件，接下來只需要Dao呼叫相關功能即可
 		Dao accessor = new Dao(connect());
 		String[] columnNames={"petName" ,"masterName" ,	"birthday" ,"price" ,
 				"weight",	"filename"};
