@@ -1,1 +1,1 @@
-delete from Pets where id=id?;
+delete from Pets where id=?;

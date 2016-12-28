@@ -1,1 +1,1 @@
-select *  from Pets where id= ?;
+select petname,mastername  from Pets where id= ?;

@@ -12,8 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
-import com.mysql.jdbc.PreparedStatement;
+import petts.petDAO;
 
 public class Dao {
 	Connection c;
@@ -53,8 +52,9 @@ public class Dao {
 			
 			if (blobs != null) {
 				for (int len = 0; len < blobs.length; len++) {
+					int qID=len+1;
 					InputStream iStream = new FileInputStream(blobs[len]);
-					ipstm.setBlob(len, iStream, blobs[len].length());
+					ipstm.setBlob(qID, iStream, blobs[len].length());
 				}
 			}
 			ipstm.executeUpdate();
@@ -76,7 +76,6 @@ public class Dao {
 			pstmt.setInt(1, key);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -87,7 +86,6 @@ public class Dao {
 		try {
 			java.sql.PreparedStatement pstmt = c.prepareStatement(getSqlCommand("sqls/searchByKey.sql"));
 			pstmt.setInt(1, key);
-
 			return pstmt.executeQuery();
 
 		} catch (SQLException e) {
@@ -97,10 +95,56 @@ public class Dao {
 
 	}
 
-	public void update() {
+	public void update(Map<String, String> datas, File... blobs) {
+		//blobs的順序需要由人類記憶，程式按照順序填入檔案。
+		//Map物件為了方便起見在所有key後面都加上問號，以避免跟查詢字串中的欄位名稱混淆
+
+		String cmd = getSqlCommand("sqls/update.sql");
+		for (String key : datas.keySet()) {
+			cmd = cmd.replace(key, datas.get(key));
+		}
+		// 取得prepared statement
+		try {
+			java.sql.PreparedStatement ipstm = c.prepareStatement(cmd);
+			
+			if (blobs != null) {
+				for (int len = 0; len < blobs.length; len++) {
+					int qID=len+1;
+					InputStream iStream = new FileInputStream(blobs[len]);
+					ipstm.setBlob(qID, iStream, blobs[len].length());
+				}
+			}
+			ipstm.executeUpdate();
+
+		}
+
+		catch (SQLException ioe) {
+			ioe.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	public List<Dao> findAll() {
+	public List<petDAO> findAll() {
+		try {
+			java.sql.PreparedStatement pstmt=c.prepareStatement( getSqlCommand("sqls/findAllByKey.sql"));
+			ResultSet rs=pstmt.executeQuery();
+			while(true){
+				rs.getInt(1);
+				rs.getString(2);
+				rs.getString(3);
+				rs.getInt(4);
+				rs.getDate(5);
+				rs.getDouble(6);
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
