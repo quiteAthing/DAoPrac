@@ -8,4 +8,4 @@ weight double,
 filename varchar(60),
 picture longblob ,
 comment longblob
-);
+)  ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
