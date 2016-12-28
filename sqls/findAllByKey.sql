@@ -1,0 +1,1 @@
+select  id,petname,mastername,price,birthday,weight,filename  from Pets; 

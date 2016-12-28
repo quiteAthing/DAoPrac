@@ -1,1 +1,1 @@
-select petname,mastername  from Pets where id= ?;
+select petName ,	masterName ,	birthday ,	price , weight,	filename  from Pets where id= ?;

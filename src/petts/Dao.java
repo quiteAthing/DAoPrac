@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import petts.petDAO;
@@ -58,7 +59,6 @@ public class Dao {
 				}
 			}
 			ipstm.executeUpdate();
-
 		}
 
 		catch (SQLException ioe) {
@@ -127,25 +127,30 @@ public class Dao {
 	}
 
 	public List<petDAO> findAll() {
+		String[] columnNames={"petName" ,"masterName" ,	"birthday" ,"price" ,
+				"weight",	"filename"};
+		List<petDAO> pets=new ArrayList<>();
 		try {
 			java.sql.PreparedStatement pstmt=c.prepareStatement( getSqlCommand("sqls/findAllByKey.sql"));
-			ResultSet rs=pstmt.executeQuery();
-			while(true){
-				rs.getInt(1);
-				rs.getString(2);
-				rs.getString(3);
-				rs.getInt(4);
-				rs.getDate(5);
-				rs.getDouble(6);
-			}
-			
-			
-		} catch (SQLException e) {
+			ResultSet rs =pstmt.executeQuery();
+				rs.first();
+				while(true){
+					String[] data =new String[6];
+					for(int i =0;i<columnNames.length;i++){
+						data[i]=rs.getString(columnNames[i]);
+					}
+					pets.add(new petDAO(data));
+					if(rs.isLast()){break;}
+					else{rs.next();}
+					}
+				}
+		
+		 catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return null;
+		return pets;
 	}
 
 	private String getSqlCommand(String fileName) {
