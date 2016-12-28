@@ -15,7 +15,7 @@ public class MainPet {
 		String[] columnNames={"petName" ,"masterName" ,	"birthday" ,"price" ,
 				"weight",	"filename"};
 		
-//		 
+//		 本程式新增內容的標準做法
 //		  Map<String,String> data=new HashMap();
 //		  data.put("petName?"," \"  Honey bee \" ");
 //		  data.put("masterName?"," \" Winny the pooh \" ");
@@ -84,13 +84,6 @@ public class MainPet {
 //		}
 //		
 
-
-			
-			
-			
-			
-		
-		 
 		
 	}
 
